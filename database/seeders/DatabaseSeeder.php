@@ -24,8 +24,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Category::create([
+            'name' => 'Data Analyst',
+            'slug' => 'data-analyst'
+        ]);
+
+        Category::create([
             'name' => 'Personal',
-            'slug' => 'Personal'
+            'slug' => 'personal'
         ]);
 
         Post::factory(20)->create();
