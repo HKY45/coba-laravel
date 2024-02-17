@@ -9,7 +9,13 @@
         
         <p>By : <a href="/posts?author={{ $post->author->username }}" class="text-decoration-none">{{ $post->author->name }}</a> in <a href="/posts?category={{ $post->category->slug }}" class="text-decoration-none">{{ $post->category->name }}</a></p>
         
-        <img src="https://source.unsplash.com/1220x500?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}" class="img-fluid">
+        @if ($post->image)
+        <div style="max-height: 400px; overflow:hidden;">
+          <img src="{{ asset('storage/'. $post->image) }}" class="card-img-top" alt="{{ $post->category->name }}" class="img-fluid">
+        </div>
+        @else
+          <img src="https://source.unsplash.com/1220x500?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}" class="img-fluid">
+        @endif
 
         <article class="my-3 fs-6">
           {!! $post->body !!}
