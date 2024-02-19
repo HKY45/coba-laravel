@@ -6,7 +6,7 @@
 </div> 
 
 <div class="col-lg-8">
-    <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="mb-5">
+    <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="mb-5" enctype="multipart/form-data">
         @method('put')
         @csrf
         <div class="mb-3">
@@ -27,6 +27,7 @@
               </div>
           @enderror
         </div>
+        
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
             <select class="form-select" name="category_id">
@@ -39,6 +40,25 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Post Image</label>
+            <input type="hidden" name="oldImage" value="{{ $post->image }}">
+            <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="preview()">
+            @error('image')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+            @enderror
+            @if ($post->image)
+                <img src="{{ asset('storage/' . $post->image) }}" class="img-preview img-fluid mt-3 d-block" id="frame" style="max-height: 200px; overflow:hidden">
+            @else
+            <div>
+                <img src="" class="img-preview img-fluid mt-3" id="frame" style="max-height: 200px; overflow:hidden">
+            </div>
+            @endif
+        </div>
+
         <div class="mb-3">
             <label for="body" class="form-label">Body</label>
             @error('body')
@@ -65,5 +85,9 @@
     document.addEventListener('trix-file-accept', function(e){
         e.preventDefault();
     })
+
+    function preview() {
+            frame.src=URL.createObjectURL(event.target.files[0]);
+    }
 </script>
 @endsection
