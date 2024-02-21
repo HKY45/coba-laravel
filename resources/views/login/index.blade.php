@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-6" style="margin-top: 20px">
     <div class="col-lg-4">
 
         @if (session()->has('success'))  
@@ -22,24 +22,27 @@
             <img src="https://source.unsplash.com/1200x600?singapore" class="card-img-top rounded mb-3" alt="japan">
             <form action="/login" method="POST">
                 @csrf
-                <div class="form-floating">
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror " id="email" placeholder="name@example.com" autofocus value="{{ old('email') }}">
+                <div class="form-floating mb-3">
                     <label for="email">Email address</label>
+                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror " id="email" placeholder="name@example.com" autofocus value="{{ old('email') }}">
                     @error('email')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                     @enderror
                 </div>
-                <div class="form-floating">
-                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                <div class="form-floating mb-2">
                     <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                 </div>
-            
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+                
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <button class="w-100 btn btn-lg btn-primary mb-2 rounded" type="submit">Login</button>
+                    </div>
+                </div>
             </form>
-            <small class="d-block text-center mt-3">Not Registered? <a href="/register">Register Now!</a></small>
-            <a href="https://instagram.com/mufaat.__.hr" target="_blank" class="text-decoration-none text-center"><p class="mt-3 mb-3 text-muted">&copy; Hikayya Rosie</p></a>
+            <small class="d-block text-center">Not Registered? <a href="/register">Register Now!</a></small>
         </main>
     </div>
 </div>

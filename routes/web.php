@@ -19,12 +19,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('/', function () {
-    return view('home', [
-        "title" => "Home",
-        "active" => "home",
-    ]);
-});
+Route::get('/', [PostController::class, 'home']);
 
 Route::get('/about', function () {
     return view('about', [

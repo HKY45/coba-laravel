@@ -1,27 +1,62 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="megakit,business,company,agency,multipurpose,modern,bootstrap4">
+  
+  <meta name="author" content="themefisher.com">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>Hikayya Ink | {{ $title }}</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- bootstrap.min css -->
+  <link rel="stylesheet" href="/megakit-2/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Icon Font Css -->
+  <link rel="stylesheet" href="/megakit-2/plugins/themify/css/themify-icons.css">
+  <link rel="stylesheet" href="/megakit-2/plugins/fontawesome/css/all.css">
+  <link rel="stylesheet" href="/megakit-2/plugins/magnific-popup/dist/magnific-popup.css">
+  <!-- Owl Carousel CSS -->
+  <link rel="stylesheet" href="/megakit-2/plugins/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="/megakit-2/plugins/slick-carousel/slick/slick-theme.css">
 
-    <link rel="stylesheet" href="/css/style.css">
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/megakit-2/css/style.css">
 
-    <title>Mufaat Blog | {{ $title }}</title>
-  </head>
-  <body>
+</head>
 
-    @include('partials.navbar')
+<body>
+  <!-- Header Start --> 
+  @include('partials.navbar')
+  <!-- Header Close --> 
 
-    <div class="container mt-4">
-      @yield('container')
-    </div>
+  @yield('container')
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  </body>
+  @include('partials.footer')
+
+  <!-- 
+  Essential Scripts
+  =====================================-->
+  <!-- Main jQuery -->
+  <script src="/megakit-2/plugins/jquery/jquery.js"></script>
+  <script src="/megakit-2/js/contact.js"></script>
+  <!-- Bootstrap 4.3.1 -->
+  <script src="/megakit-2/plugins/bootstrap/js/popper.js"></script>
+  <script src="/megakit-2/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <!--  Magnific Popup-->
+  <script src="/megakit-2/plugins/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+  <!-- Slick Slider -->
+  <script src="/megakit-2/plugins/slick-carousel/slick/slick.min.js"></script>
+  <!-- Counterup -->
+  <script src="/megakit-2/plugins/counterup/jquery.waypoints.min.js"></script>
+  <script src="/megakit-2/plugins/counterup/jquery.counterup.min.js"></script>
+
+  <!-- Google Map -->
+  <script src="p/megakit-2/lugins/google-map/map.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkeLMlsiwzp6b3Gnaxd86lvakimwGA6UA&callback=initMap"></script>    
+    
+  <script src="/megakit-2/js/script.js"></script>
+
+</body>
 </html>
+   
