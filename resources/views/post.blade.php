@@ -77,7 +77,9 @@
           <div class="col-lg-4">
             <div class="sidebar-wrap">
               <div class="sidebar-widget card border-0 mb-3">
-                <img src="images/blog/blog-author.jpg" alt="" class="img-fluid" />
+                <div class="d-flex justify-content-center mt-3">
+                  <img src="https://source.unsplash.com/400x400?quotes" alt="" class="img-fluid rounded" style="max-width: 200px"/>
+                </div>
                 <div class="card-body p-4 text-center">
                   <a href="/posts?author={{ $post->author->username }}">
                     <h5 class="mb-0 mt-4">{{ $post->author->name }}</h5>
@@ -108,7 +110,7 @@
               <div class="sidebar-widget latest-post card border-0 p-4 mb-3">
                 <h5>Latest Posts</h5>
 
-                @foreach ($posts as $post)
+                @foreach ($latestPosts as $post)
                   <div class="media border-bottom py-3">
                     <div class="media-body">
                       <h6 class="my-2"><a href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h6>

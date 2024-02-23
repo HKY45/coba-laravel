@@ -48,13 +48,14 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $posts = Post::latest()->paginate(3)->withQueryString();
+        $posts = Post::latest()->get();
+        $latestPosts = Post::latest()->paginate(3)->withQueryString();
 
         // Ambil post sebelumnya
-        $previousPost = $posts->where('id', '<', $post->id)->sortByDesc('id')->first();
+        $previousPost = $post->where('id', '<', $post->id)->orderBy('id', 'desc')->first();
 
         // Ambil post selanjutnya
-        $nextPost = $posts->where('id', '>', $post->id)->sortBy('id')->first();
+        $nextPost = $post->where('id', '>', $post->id)->orderBy('id', 'asc')->first();
 
         return view('post', [
             "title" => "View Post",
@@ -62,7 +63,7 @@ class PostController extends Controller
             "active" => "posts",
             "previous" => $previousPost,
             "next" => $nextPost,
-            "next" => $nextPost,
+            "latestPosts" => $latestPosts,
             "post" => $post
         ]);
     }
