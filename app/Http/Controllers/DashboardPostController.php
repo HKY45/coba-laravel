@@ -44,22 +44,50 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
+        if ($request->cropped_image == null) {
+            return redirect()->back()->with('error', 'Gambar kosong atau format gambar yang anda pilih bukan gambar! Gambar harus beformat JPG,PNG')->withInput();
+        }
+
+        $folder = "img/post-images";
+        $folderPath = public_path($folder);
+
+        $image_parts = explode(";base64,", $request->cropped_image);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+
+        $imageSize = strlen($image_base64);
+        $imageSize = $imageSize / 1024;
+        $maxSize = 2048;
+        if ($imageSize > $maxSize) {
+            return redirect()->back()->with('error', 'Ukuran gambar terlalu besar! Ukuran gambar harus dibawah 2MB')->withInput();;
+        }
+
+        $imageName = uniqid() . '.png';
+
+        Storage::disk('public_uploads')->put('img/post-images/' . $imageName, $image_base64);
+        $imageFullPath = $folder . "/" . $imageName;
+
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'slug' => 'required|unique:posts',
             'category_id' => 'required',
-            'image' => 'image|file|max:2048',
             'body' => 'required'
         ]);
-
-        if ($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('post-images');
-        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200, '...');
 
-        Post::create($validatedData);
+        $saveFile = new Post;
+        $saveFile->category_id = $validatedData['category_id'];
+        $saveFile->user_id = $validatedData['user_id'];
+        $saveFile->title = $validatedData['title'];
+        $saveFile->slug = $validatedData['slug'];
+        $saveFile->image = $imageFullPath;
+        $saveFile->excerpt = $validatedData['excerpt'];
+        $saveFile->body = $validatedData['body'];
+        $saveFile->save();
 
         return redirect('/dashboard/posts')->with('success', 'New post has been added!');
     }
@@ -100,32 +128,64 @@ class DashboardPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $imageFullPath = $request->oldImage;
+        // dd($imageFullPath);
+        if ($request->cropped_image == null) {
+            return redirect()->back()->with('error', 'Gambar belum diganti atau format gambar yang anda pilih bukan gambar! Gambar harus beformat JPG,PNG')->withInput();
+        }
+
+        $folder = "img/post-images";
+        $folderPath = public_path($folder);
+
+        $image_parts = explode(";base64,", $request->cropped_image);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+
+        $imageSize = strlen($image_base64);
+        $imageSize = $imageSize / 1024;
+        $maxSize = 2048;
+        if ($imageSize > $maxSize) {
+            return redirect()->back()->with('error', 'Ukuran gambar terlalu besar! Ukuran gambar harus dibawah 2MB')->withInput();
+        }
+
+        $imageName = uniqid() . '.png';
+
+        if ($request->file('image')) {
+            if ($request->oldImage) {
+                Storage::disk('public_uploads')->delete($request->oldImage);
+            }
+            Storage::disk('public_uploads')->put('img/post-images/' . $imageName, $image_base64);
+            $imageFullPath = $folder . "/" . $imageName;
+        }
+
         $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
-            'image' => 'image|file|max:2048',
             'body' => 'required'
         ];
 
         if ($request->slug != $post->slug) {
             $rules['slug'] = 'required|unique:posts';
+        } else {
+            $rules['slug'] = 'required';
         };
 
         $validatedData = $request->validate($rules);
 
-
-        if ($request->file('image')) {
-            if ($request->oldImage) {
-                Storage::delete($request->oldImage);;
-            }
-            $validatedData['image'] = $request->file('image')->store('post-images');
-        }
-
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200, '...');
 
-        Post::where('id', $post->id)
-            ->update($validatedData);
+        $id = $post->id;
+        $postUpdate = Post::find($id);
+        $postUpdate->category_id = $validatedData['category_id'];
+        $postUpdate->user_id = $validatedData['user_id'];
+        $postUpdate->title = $validatedData['title'];
+        $postUpdate->slug = $validatedData['slug'];
+        $postUpdate->image = $imageFullPath;
+        $postUpdate->excerpt = $validatedData['excerpt'];
+        $postUpdate->body = $validatedData['body'];
+        $postUpdate->save();
 
         return redirect('/dashboard/posts')->with('success', 'Post has been updated!');
     }
@@ -139,7 +199,7 @@ class DashboardPostController extends Controller
     public function destroy(Post $post)
     {
         if ($post->image) {
-            Storage::delete($post->image);;
+            Storage::disk('public_uploads')->delete($post->image);
         }
         Post::destroy($post->id);
         return redirect('/dashboard/posts')->with('success', 'Post has been deleted!');

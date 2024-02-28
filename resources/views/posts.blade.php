@@ -26,7 +26,7 @@
                         <div class="col-lg-6 mb-4">
                             <div class="blog-item">
                                 @if ($post->image)
-                                    <img src="{{ asset('storage/'. $post->image) }}" alt="" class="img-fluid rounded" />
+                                    <img src="{{ asset($post->image) }}" alt="" class="img-fluid rounded" />
                                 @else
                                     <img src="https://source.unsplash.com/500x300?{{ $post->category->name }}" alt="" class="img-fluid rounded" />
                                 @endif

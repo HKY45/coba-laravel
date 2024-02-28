@@ -13,7 +13,7 @@
                     <h2 class="mt-3 mb-4 text-center"><a href="#">{{ $post->title }}</a></h2>
                       @if ($post->image)
                       <div class="d-flex justify-content-center align-items-center mb-3">
-                        <img style="width: 60%; height: auto;" src="{{ asset('storage/'. $post->image) }}" alt="" class="img-fluid rounded" />
+                        <img style="width: 60%; height: auto;" src="{{ asset($post->image) }}" alt="" class="img-fluid rounded" />
                       </div>
                       @else
                         <img src="https://source.unsplash.com/1220x500?{{ $post->category->name }}" alt="" class="img-fluid rounded mb-3" />

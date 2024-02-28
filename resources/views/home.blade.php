@@ -72,7 +72,7 @@
             <div class="col-lg-4 col-md-6 mb-5">
               <div class="card bg-transparent border-0">
                 @if ($post->image)
-                  <img src="{{ asset('storage/'. $post->image) }}" alt="" class="img-fluid rounded" >
+                  <img src="{{ asset($post->image) }}" alt="" class="img-fluid rounded" >
                 @else
                   <img src="https://source.unsplash.com/500x300?{{ $post->category->name }}" alt="" class="img-fluid rounded" >
                 @endif
